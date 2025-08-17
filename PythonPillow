@@ -1,0 +1,26 @@
+import os
+from PIL import Image
+
+image_path = "lobo.png"
+image = Image.open(image_path)
+
+# Analizar la imagen
+print(image.size)
+print(image.filename)
+print(image.format)
+
+# Voltear la imagen (LEFT_RIGHT, TOP_BOTTOM,ROTATE_90)
+flipped = image.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+
+# Guardar en un nuevo archivo
+flipped_path = "lobo_flipped.png"
+flipped.save(flipped_path)
+
+# Abrir el archivo volteado con el visor de Windows
+os.startfile(flipped_path)
+
+
+#Rotar y guardar la imagen modificada
+
+#lobo_girado = image.rotate(60)
+#lobo_girado.save('lobo_girado.png','png')
