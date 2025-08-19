@@ -1,0 +1,16 @@
+import os
+from PIL import Image
+
+image_path = "Sombri.jpeg" #Poned el nombre de la imagen, debe estar en la misma carpeta que el archivo .py
+image = Image.open(image_path)
+#os.startfile(image_path)  # Fuerza abrir en visor predeterminado de Windows
+
+#resize
+image_resized = image.resize((1000,600))
+
+# Guardar en un nuevo archivo
+resized_path = "Sombri_resized.jpeg"
+image_resized.save(resized_path)
+
+# Abrir la imagen redimensionada con el visor de Windows
+os.startfile(resized_path)
