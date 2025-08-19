@@ -3,17 +3,18 @@ from PIL import Image
 
 image_path = "lobo.png"
 image = Image.open(image_path)
+#os.startfile(image_path)  # Fuerza abrir en visor predeterminado de Windows
 
 # Analizar la imagen
 print(image.size)
 print(image.filename)
 print(image.format)
 
-# Voltear la imagen (LEFT_RIGHT, TOP_BOTTOM,ROTATE_90)
-flipped = image.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+# Voltear la imagen (FLIP_LEFT_RIGHT, FLIP_TOP_BOTTOM,ROTATE_90)
+flipped = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
 
 # Guardar en un nuevo archivo
-flipped_path = "lobo_flipped.png"
+flipped_path = "lobo_inverso.png"
 flipped.save(flipped_path)
 
 # Abrir el archivo volteado con el visor de Windows
