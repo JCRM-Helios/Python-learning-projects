@@ -19,7 +19,7 @@ class Mendruguin:
             gasto = random.randint(1,3) #gasto de vida por turno aleatorio entre 1 y 3
             self.vida -= gasto
             self.edad += 1
-            print(f'Turno {self.edad}: vida=¨{self.vida}, edad={self.edad}')
+            print(f'Turno {self.edad}: vida={self.vida}, edad={self.edad}')
 
         if self.vida <= 0:
             self.vivo = False
