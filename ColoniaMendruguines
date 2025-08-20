@@ -3,7 +3,7 @@ import random
 
 class Mendruguin:
     def __init__(self):
-        self.vida = random.randint(5,20)  #vida inicial aleatoria entre 1 y 20
+        self.vida = random.randint(5,20)  #vida inicial aleatoria entre 5 y 20
         self.edad = 0
         self.fuerza = random.randint(1,5)
         self.velocidad = random.randint(1,5)
