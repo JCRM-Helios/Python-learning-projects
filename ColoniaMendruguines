@@ -1,0 +1,36 @@
+import random
+
+
+class Mendruguin:
+    def __init__(self):
+        self.vida = random.randint(5,20)  #vida inicial aleatoria entre 1 y 20
+        self.edad = 0
+        self.fuerza = random.randint(1,5)
+        self.velocidad = random.randint(1,5)
+        self.defensa = random.randint(1,5)
+        self.vivo = True
+
+        print(f'Ha nacido un Mendruguin con {self.vida} de vida!')
+        print(f'Stats -> Fuerza={self.fuerza}, Velocidad={self.velocidad}, Defensa= {self.defensa}')
+    
+
+    def vivir_un_turno(self):
+        if self.vivo:
+            gasto = random.randint(1,3) #gasto de vida por turno aleatorio entre 1 y 3
+            self.vida -= gasto
+            self.edad += 1
+            print(f'Turno {self.edad}: vida=¨{self.vida}, edad={self.edad}')
+
+        if self.vida <= 0:
+            self.vivo = False
+            print(f'Mendruguin ha muerto a los {self.edad} turnos :(')
+
+
+
+
+# Simulación
+
+mi_mendruguin = Mendruguin()
+
+while mi_mendruguin.vivo:
+    mi_mendruguin.vivir_un_turno()
