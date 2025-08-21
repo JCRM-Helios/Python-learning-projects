@@ -27,10 +27,37 @@ class Mendruguin:
 
 
 
+#--------------------------------------------------------------------#
+# Simulación (Obsoleta, la dejo como referencia para un unico ente)
+#--------------------------------------------------------------------#
 
-# Simulación
+#mi_mendruguin = Mendruguin()
 
-mi_mendruguin = Mendruguin()
+#while mi_mendruguin.vivo:
+#    mi_mendruguin.vivir_un_turno()
 
-while mi_mendruguin.vivo:
-    mi_mendruguin.vivir_un_turno()
+#---------------------------------------------------------------------#
+
+
+#Simulación Colonia
+
+colonia = [Mendruguin() for mendruguin in range(10)] #Crea X cantidad de mendruguines
+
+turno = 0
+while any(mendruguin.vivo for mendruguin in colonia):
+    turno +=1
+    print(f'Turno ({turno})')
+    for mendruguin in colonia:
+        if mendruguin.vivo:
+            mendruguin.vivir_un_turno()
+
+#---------------------------------------------------------------------#
+#Resumen de la simulación
+#---------------------------------------------------------------------#
+
+vivos = sum(1 for mendruguin in colonia if mendruguin.vivo)
+muertos = len(colonia) - vivos
+print('\n RESUMEN FINAL')
+print(f'Turnos simulados: {turno}')
+print(f'Mendruguines vivos: {vivos}')
+print(f'Mendruguines muertos: {muertos}')
