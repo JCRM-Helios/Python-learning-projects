@@ -1,11 +1,11 @@
 import random
 
-
 class Mendruguin:
-    def __init__(self):
-        self.nombre = self.generar_nombre()
-        self.vida = random.randint(5,20)  #vida inicial aleatoria entre 5 y 20
-        self.energia = random.randint(20,80)
+    def __init__(self, nombre=None):
+        # Si se pasa un nombre, se usa, si no, se genera aleatorio
+        self.nombre = nombre if nombre else self.generar_nombre()
+        self.vida = random.randint(5,20)  # vida inicial aleatoria entre 5 y 20
+        self.energia = random.randint(40,80)  # energía inicial más baja para ver muertes
         self.edad = 0
         self.fuerza = random.randint(1,5)
         self.velocidad = random.randint(1,5)
@@ -14,66 +14,96 @@ class Mendruguin:
         self.turno_muerte = None
 
         print(f'Ha nacido {self.nombre} con {self.vida} de vida!')
-        print(f'Stats -> Fuerza={self.fuerza}, Velocidad={self.velocidad}, Defensa= {self.defensa}')
+        print(f'Stats -> Fuerza={self.fuerza}, Velocidad={self.velocidad}, Defensa={self.defensa}')
     
     def generar_nombre(self):
-        #Listado de silabas a combinar para simular rand
+        # Listado de sílabas a combinar para simular nombres aleatorios
         inicio = ['Men', 'Dru', 'Guin', 'Lin','Jay','Jun','Guil']
         medio = ['ho', 'ka', 'lem','sa','to','sha']
         fin = ['ru','shin','dan','lio','eemo','ren','ina']
         return random.choice(inicio) + random.choice(medio) + random.choice(fin)
 
-    def vivir_un_turno(self, turno_actual):
+    def vivir_un_turno(self, turno_actual, colonia):
         if not self.vivo:
             return
-        self.energia -= random.randint(5, 15)
+        # Reducimos energía por turno y sumamos edad
+        gasto = random.randint(5,15)  # energía gastada por turno
+        self.energia -= gasto
+        self.edad += 1
+        print(f'Turno {turno_actual}: {self.nombre} gasta {gasto} energía, le queda {self.energia}.')
+
+        # Revisar si muere
         if self.energia <= 0:
             self.vivo = False
             self.turno_muerte = turno_actual
             print(f"💀 {self.nombre} ha muerto en el turno {turno_actual}.")
+            return
 
-
-
+        # Reproducción aleatoria
+        if random.random() < 0.1:  # 10% de chance de reproducirse
+            nuevo = Mendruguin()
+            colonia.append(nuevo)
+            print(f'{self.nombre} ha tenido un hijo llamado {nuevo.nombre} en el turno {turno_actual}.')
 
 #--------------------------------------------------------------------#
-# Simulación (Obsoleta, la dejo como referencia para un unico ente)
+# Simulación
 #--------------------------------------------------------------------#
 
-#mi_mendruguin = Mendruguin()
-
-#while mi_mendruguin.vivo:
-#    mi_mendruguin.vivir_un_turno()
-
-#---------------------------------------------------------------------#
-
-
-#Simulación Colonia
-
-colonia = [Mendruguin() for _ in range(10)] #Crea X cantidad de mendruguines
+# Crear colonia inicial
+colonia = [Mendruguin() for _ in range(10)]  # Crea 10 mendruguines
 
 turno = 0
-while any(mendruguin.vivo for mendruguin in colonia):
+NumeroTurnos = 50  # Máximo de turnos
+eventos_finales = [
+    'El Volcán erupciona!',
+    'Un tornado arrasa el valle!',
+    'Una lluvia de meteoritos cae sobre ellos!',
+    'Los dragones están hambrientos, y se os comen!',
+    'Llegan los Trolls, os destruyen las casas y os dejan sin comida!'
+]
+
+# Ciclo de simulación
+while turno < NumeroTurnos:
     turno += 1
-    print(f'Turno ({turno})')
-    for mendruguin in colonia:
-        mendruguin.vivir_un_turno(turno)
+    print(f'\n=== Turno {turno} ===')
+    vivos = [m for m in colonia if m.vivo]
+
+    if not vivos:
+        print('Todos los Mendruguines han muerto antes del failsafe.')
+        break
+
+    # Cada Mendruguin vivo realiza su turno
+    for m in vivos:
+        m.vivir_un_turno(turno, colonia)
+
+# Evento "failsafe" al final del número de turnos
+if turno == NumeroTurnos:
+    evento = random.choice(eventos_finales)
+    print(f'\n🔥 Evento catastrófico: {evento} La simulación termina en el turno {turno}.')
 
 #---------------------------------------------------------------------#
-#Resumen de la simulación
+# Resumen de la simulación
 #---------------------------------------------------------------------#
 
-print('\n Resumen final de la colonia:')
-for mendruguin in colonia:
-    if mendruguin.turno_muerte is not None:
-        print(f'{mendruguin.nombre} murió en el turno {mendruguin.turno_muerte}')
+print('\n=== Resumen final de la colonia ===')
+for m in colonia:
+    if m.turno_muerte is not None:
+        print(f'{m.nombre} murió en el turno {m.turno_muerte}')
     else:
-        print(f'{mendruguin.nombre} sobrevivió hasta el final con {mendruguin.energia} de energia')
+        print(f'{m.nombre} sobrevivió hasta el final con {m.energia} de energía')
 
+#---------------------------------------------------------------------#
+# Referencias de código antiguo comentado
+#---------------------------------------------------------------------#
 
+# mi_mendruguin = Mendruguin()
+# while mi_mendruguin.vivo:
+#     mi_mendruguin.vivir_un_turno()
 
-#vivos = sum(1 for mendruguin in colonia if mendruguin.vivo)
-#muertos = len(colonia) - vivos
-#print('\n RESUMEN FINAL')
-#print(f'Turnos simulados: {turno}')
-#print(f'Mendruguines vivos: {vivos}')
-#print(f'Mendruguines muertos: {muertos}')
+# colonia = [Mendruguin() for _ in range(10)]
+# turno = 0
+# while any(mendruguin.vivo for mendruguin in colonia):
+#     turno += 1
+#     print(f'Turno ({turno})')
+#     for mendruguin in colonia:
+#         mendruguin.vivir_un_turno(turno)
